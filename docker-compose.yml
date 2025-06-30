@@ -1,7 +1,7 @@
 services:
   postgres:
     image: postgres:15-alpine
-    container_name: renovation-quotes-db
+    container_name: general-contractor-quotes-db
     restart: unless-stopped
     environment:
       POSTGRES_USER: ${POSTGRES_USER}
@@ -18,7 +18,7 @@ services:
     build:
       context: .
       dockerfile: Dockerfile.dev
-    container_name: renovation-quotes-app
+    container_name: general-contractor-quotes-app
     restart: unless-stopped
     environment:
       - DATABASE_URL=${DATABASE_URL}
