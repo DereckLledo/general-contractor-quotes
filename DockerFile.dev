@@ -1,0 +1,22 @@
+FROM node:18-alpine
+
+WORKDIR /app
+
+COPY package*.json ./
+
+# Copy Prisma schema before npm install (needed for postinstall script)
+COPY prisma ./prisma/
+
+RUN npm ci
+
+COPY . .
+
+RUN npx prisma generate
+
+EXPOSE 3000
+
+# Create a startup script that waits for DB and runs migrations
+COPY docker-entrypoint.sh /usr/local/bin/
+RUN chmod +x /usr/local/bin/docker-entrypoint.sh
+
+CMD ["docker-entrypoint.sh"]
